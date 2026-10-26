@@ -1,0 +1,32 @@
+# ============================================================
+#  AEGIS-AI  —  RUNTIME SETTINGS
+# ============================================================
+
+llm:
+  # provider: anthropic | openai | ollama
+  provider: "ollama"
+  # Model name for the chosen provider.
+  # Shared initial development model, served locally through Ollama.
+  model: "qwen2.5:7b"
+  # Ollama server URL (default local install).
+  base_url: "http://localhost:11434"
+  temperature: 0.2
+  max_tokens: 1500
+  # Max seconds to wait for one planning call. Local models get slower as
+  # the conversation grows (more tool results = more context to process) --
+  # raise this on slower hardware instead of assuming the model hung.
+  timeout: 600
+
+agent:
+  # Human-in-the-loop: agent proposes, you approve, then it runs.
+  # Set to false only for fully hands-off runs in a trusted lab.
+  require_confirmation: true
+  # Safety cap on how many reasoning->action cycles per session.
+  max_iterations: 25
+
+storage:
+  db_path: "aegis.db"
+  audit_log: "audit.log"
+
+reporting:
+  output_dir: "reports/local"

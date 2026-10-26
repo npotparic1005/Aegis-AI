@@ -1,0 +1,53 @@
+# ============================================================
+#  AEGIS-AI  —  ENGAGEMENT SCOPE
+# ============================================================
+# This file is the single source of truth for what the agent
+# is allowed to touch. Every action is validated against it
+# BEFORE execution. Nothing outside this scope runs. Ever.
+#
+# Treat this file like a signed contract: it should be
+# reviewed and committed to version control before any test,
+# and it should mirror your written authorization.
+# ============================================================
+
+engagement:
+  name: "Local Recon Demo"
+  client: "self"
+  authorization_ref: "personal-lab-owned-hardware"
+  start_date: "2025-01-01"
+  end_date: "2030-12-31"
+
+# ---- Targets that ARE in scope -----------------------------
+# Accepts individual IPs, CIDR ranges, and exact hostnames.
+in_scope:
+  hosts:
+    - "127.0.0.1"
+    - "scanme.nmap.org"
+  domains:
+    - "localhost"
+
+# ---- Explicit exclusions (win over in_scope) ---------------
+# Anything here is refused even if it also matches in_scope.
+out_of_scope:
+  hosts:
+    #- "10.10.10.1"           # example: lab gateway/router
+  domains: []
+
+# ---- Which tools may run -----------------------------------
+# The agent can only invoke tools listed here. A tool the LLM
+# "suggests" but that isn't allowed is rejected by policy.
+allowed_tools:
+  - nmap
+  - cve_lookup
+  - http_headers
+  - dns_lookup
+  - whois
+
+# ---- Per-tool guardrails -----------------------------------
+constraints:
+  # Rate limiting so the agent can't be turned into a DoS.
+  max_concurrent_actions: 2
+  # Ports the scanner is allowed to look at. Empty = tool default.
+  allowed_ports: [] # e.g. [22, 80, 443, 8080]
+  # Hard stop: refuse anything that looks destructive.
+  block_destructive: true

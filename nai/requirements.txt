@@ -1,0 +1,25 @@
+# Core
+PyYAML>=6.0
+requests>=2.31.0        # LLM (ollama) + CVE lookup (NVD API)
+
+# Reporting
+fpdf2>=2.7.0            # PDF report output (report --pdf)
+
+# Tools enabled by default in scope.yaml's allowed_tools -- required, not optional
+dnspython>=2.6.0        # dns_lookup tool
+python-whois>=0.9.4     # whois tool
+
+# Tools (optional — install when you enable the tool in scope.yaml)
+zaproxy>=0.3.2         # OWASP ZAP client (zap tool)
+
+# CLOUD LLM (optional): only if you switch provider in settings.yaml
+# anthropic>=0.39.0
+# openai>=1.40.0
+
+# External programs (NOT pip) — install on the system:
+#   nmap        (https://nmap.org)
+#   Ollama      (https://ollama.com)  ->  ollama pull gpt-oss:20b
+#   OWASP ZAP   (https://www.zaproxy.org)  [only if using the zap tool]
+#
+# Optional free API key to raise NVD rate limits (CVE lookup):
+#   export NVD_API_KEY=...   (https://nvd.nist.gov/developers/request-an-api-key)
